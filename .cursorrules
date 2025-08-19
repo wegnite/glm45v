@@ -1,45 +1,271 @@
-# Project: Next.js Boilerplate Application
+# Project: AI Universal Generator - Next.js SaaS Application
 
-## General
+## Project Overview
+This is a production-ready Next.js 15.2 TypeScript application using App Router, designed as an AI-powered universal content generator with multi-language support (English, Chinese, Japanese).
 
-- This is a Next.js TypeScript application with App Router.
-- Use React for components development, prefer to use functional components.
-- Use Tailwind CSS for styling.
-- Use Shadcn UI components.
-- Use sonner for toast notifications.
-- Use React Context for state management.
-- Component names are in CamelCase.
-- Use next-auth for authentication.
-- Use next-intl for internationalization.
-- Use Stripe for payment.
+## Tech Stack
+- **Framework**: Next.js 15.2 with App Router
+- **Language**: TypeScript (strict mode)
+- **UI Library**: Shadcn UI (Radix UI + Tailwind CSS)
+- **Styling**: Tailwind CSS
+- **Authentication**: NextAuth.js 5.0
+- **Database**: Supabase PostgreSQL
+- **ORM**: Drizzle ORM
+- **Payment**: Stripe
+- **AI Providers**: OpenAI, DeepSeek, Kling, OpenRouter, SiliconFlow, Replicate
+- **Internationalization**: next-intl
+- **Toast Notifications**: Sonner
+- **State Management**: React Context API
+- **Deployment**: Vercel/Docker/Cloudflare Workers
 
-## File Structure
+## Architecture Pattern: MVC-Service Layer
+```
+Presentation Layer → Business Logic Layer → Data Access Layer
+/app, /components → /services, /app/api → /models
+```
 
-- src/app/: Next.js App Router pages and API routes
-  - [locale]/: Locale-specific pages
-  - api/: API routes (e.g. checkout)
-  - theme.css: Theme styles
-- src/components/: React components
-  - blocks/: Layout blocks (header, footer, etc.), commonly used in Landing Page
-  - ui/: Reusable UI components
-- src/contexts/: React contexts (e.g. app context)
-- src/i18n/: Internationalization
-  - pages/landing/: Page-specific translations for Landing Page
-  - messages/: Global messages
-- src/types/: TypeScript type definitions
-  - blocks/: Types for layout blocks
-  - pages/: Types for pages
-- src/models/: Data models and data operations.
-- src/services/: Business logics.
-- src/lib/: Custom libraries and functions
-- public/: Static assets
-- .env.development: Development environment variables
+## Directory Structure
+
+### Core Application
+- `src/app/`: Next.js App Router pages and API routes
+  - `[locale]/`: Locale-specific pages (en, zh, ja)
+    - `(default)/`: Public pages
+    - `(admin)/`: Admin dashboard
+    - `auth/`: Authentication pages
+  - `api/`: API routes
+    - `checkout/`: Stripe payment processing
+    - `auth/[...nextauth]/`: NextAuth endpoints
+    - `stripe-notify/`: Stripe webhooks
+    - `demo/`: AI generation endpoints
+
+### Business Logic
+- `src/services/`: Business logic layer
+  - Core services: user, credit, order, affiliate, apikey
+  - Keep business logic separate from presentation and data layers
+
+### Data Layer
+- `src/models/`: Database operations and data persistence
+  - CRUD operations for each entity
+  - Database connection configuration in db.ts
+
+### Presentation Layer
+- `src/components/`: React components
+  - `ui/`: Base UI components (Shadcn UI)
+  - `blocks/`: Page sections (hero, pricing, footer, header, etc.)
+  - `console/`: Console/dashboard components
+  - `dashboard/`: Admin dashboard components
+  - `sign/`: Authentication components
+
+### Configuration
+- `src/types/`: TypeScript type definitions
+  - Core types: user.d.ts, order.d.ts, credit.d.ts
+  - Block types: /blocks/*.d.ts
+  - Page types: /pages/*.d.ts
+
+- `src/i18n/`: Internationalization
+  - `messages/`: Global translations (en.json, zh.json, ja.json)
+  - `pages/`: Page-specific translations
+    - `landing/`: Landing page content
+    - `pricing/`: Pricing page content
+
+### AI Integration
+- `src/aisdk/`: AI SDK integrations
+  - Provider-specific implementations
+  - Video/image generation utilities
+
+### Utilities
+- `src/lib/`: Utility functions
+  - utils.ts: General utilities (cn function for className)
+  - resp.ts: API response helpers
+  - cache.ts, storage.ts, hash.ts, time.ts
+
+- `src/hooks/`: React hooks
+  - Custom hooks for mobile detection, media queries, etc.
 
 ## Coding Conventions
 
-- Use TypeScript for type safety
-- Follow React best practices and hooks
-- Implement responsive design with Tailwind CSS and Shadcn UI
-- Maintain consistent internationalization structure
-- Keep components modular and reusable
-- Use proper type definitions for components and data
+### TypeScript
+- Use TypeScript for ALL files (no .js files)
+- Enable strict mode
+- Avoid `any` type - use proper type definitions
+- Define interfaces for object shapes
+- Export types from dedicated .d.ts files
+
+### React/Next.js
+- Use functional components with hooks (no class components)
+- Prefer server components where possible
+- Client components only when needed (interactivity, browser APIs)
+- Component names in PascalCase
+- File names in kebab-case
+- Use Next.js 15 App Router patterns
+
+### Component Structure
+```tsx
+// Import types first
+import type { ComponentProps } from '@/types/component'
+
+// Then external imports
+import { useState } from 'react'
+
+// Then internal imports
+import { Button } from '@/components/ui/button'
+
+// Component definition
+export function ComponentName({ prop1, prop2 }: ComponentProps) {
+  // Hooks first
+  const [state, setState] = useState()
+  
+  // Event handlers
+  const handleClick = () => {}
+  
+  // Render
+  return <div>...</div>
+}
+```
+
+### Styling
+- Use Tailwind CSS classes for styling
+- Use cn() utility from lib/utils for conditional classes
+- Maintain consistent spacing (use Tailwind's spacing scale)
+- Mobile-first responsive design
+- Dark mode support via theme provider
+
+### API Routes
+- RESTful endpoints in /app/api
+- Use proper HTTP methods (GET, POST, PUT, DELETE)
+- Consistent error handling with respErr and respData helpers
+- Always validate input data
+- Return consistent response format:
+```ts
+// Success
+return respData(data)
+
+// Error
+return respErr('Error message')
+```
+
+### State Management
+- Use React Context for global state
+- Keep state as close to usage as possible
+- Server state via server components
+- Client state via useState/useReducer
+
+### Internationalization
+- All user-facing text must use translations
+- Use next-intl's useTranslations hook
+- Keep translations organized by feature/page
+- Support en, zh, ja locales
+
+### Database Operations
+- All database operations in /models
+- Use transactions for multi-step operations
+- Proper error handling and logging
+- Type-safe queries with Drizzle ORM
+
+### Authentication
+- Use NextAuth.js session management
+- Check authentication in middleware
+- Protect API routes with session checks
+- Handle both authenticated and unauthenticated states
+
+### Error Handling
+- Implement proper error boundaries
+- Log errors appropriately
+- User-friendly error messages
+- Graceful degradation
+
+### Testing Requirements
+- Manual testing in development mode
+- Test with multiple AI providers
+- Test authentication flows
+- Test payment integration carefully
+- Verify internationalization
+
+### Security Best Practices
+- NEVER commit .env files
+- NEVER expose API keys in code
+- Always use environment variables
+- Validate and sanitize user inputs
+- Use HTTPS in production
+- Implement rate limiting for APIs
+
+## UI/UX Guidelines
+- Avoid indigo/blue colors unless specified
+- Maintain consistent design language
+- Ensure accessibility (ARIA labels, keyboard navigation)
+- Loading states for async operations
+- Error states with clear messages
+- Success feedback with toast notifications
+
+## Git Workflow
+- NEVER auto-commit changes
+- Descriptive commit messages
+- Test before committing
+- Small, focused commits
+- Use conventional commits format
+
+## Common Commands
+```bash
+# Development
+npm run dev              # Start dev server
+npm run build           # Build for production
+npm run lint            # Run ESLint
+npx tsc --noEmit       # Type check
+
+# Database
+npm run db:migrate      # Run migrations
+npm run db:studio       # Open Drizzle Studio
+
+# Testing
+npm run test:integration # Run integration tests
+```
+
+## File Creation Rules
+- NEVER create test files in root directory
+- Test files go in /test/ directory
+- Documentation goes in /docs/ with Chinese naming
+- Example files go in /examples/
+- Keep source directories clean
+
+## Performance Considerations
+- Optimize images (use Next.js Image component)
+- Lazy load components when appropriate
+- Use dynamic imports for large components
+- Implement proper caching strategies
+- Minimize client-side JavaScript
+
+## AI Generation Features
+- Support multiple AI providers
+- Implement proper error handling for API failures
+- Handle rate limiting gracefully
+- Validate API responses
+- Provide fallback options
+
+## Important Notes
+- This is a production SaaS application - code quality matters
+- Follow established patterns in the codebase
+- When in doubt, check existing implementations
+- Maintain backwards compatibility
+- Document complex logic with comments
+- Consider performance and scalability
+
+## Project-Specific Rules
+1. Use UltraThink mode for complex problem-solving
+2. Follow the three-tier architecture strictly
+3. Keep business logic in services layer
+4. Database operations only in models layer
+5. UI components should be pure and reusable
+6. API routes handle HTTP concerns only
+7. Use TypeScript strict mode always
+8. Test AI features with multiple providers
+9. Ensure proper error handling throughout
+10. Maintain consistent code style
+
+## When Writing Code
+- First understand existing patterns
+- Follow the established architecture
+- Write clean, maintainable code
+- Add appropriate comments for complex logic
+- Consider edge cases and error scenarios
+- Test thoroughly before considering complete
+- Optimize for readability and maintainability

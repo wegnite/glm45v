@@ -1,4 +1,64 @@
+# AI Universal Generator Robots.txt
+# https://aigenerator.com
+
+# Allow all crawlers by default
 User-agent: *
-Disallow: /*?*q=
-Disallow: /privacy-policy
-Disallow: /terms-of-service
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /account/
+Disallow: /auth/
+Crawl-delay: 1
+
+# Googlebot specific rules (no crawl delay for better indexing)
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /account/
+Disallow: /auth/
+Crawl-delay: 0
+
+# Bingbot specific rules
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /account/
+Disallow: /auth/
+Crawl-delay: 1
+
+# Baiduspider for Chinese market
+User-agent: Baiduspider
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /_next/
+Disallow: /account/
+Disallow: /auth/
+Crawl-delay: 2
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+# Sitemaps
+Sitemap: https://aigenerator.com/sitemap.xml
+Sitemap: https://aigenerator.com/sitemap-images.xml
+Sitemap: https://aigenerator.com/sitemap-0.xml

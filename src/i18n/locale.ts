@@ -15,6 +15,7 @@ import { Pathnames } from "next-intl/routing";
  * 目前支持：
  * - en: 英语
  * - zh: 中文
+ * - ja: 日语
  * 
  * 扩展方法：
  * 1. 在此数组添加语言代码
@@ -22,7 +23,7 @@ import { Pathnames } from "next-intl/routing";
  * 3. 在 localeNames 添加显示名称
  * 4. 更新 middleware.ts 的 matcher
  */
-export const locales = ["en", "zh"];
+export const locales = ["en", "zh", "ja"];
 
 /**
  * 语言显示名称映射
@@ -34,6 +35,7 @@ export const locales = ["en", "zh"];
 export const localeNames: any = {
   en: "English",
   zh: "中文",
+  ja: "日本語",
 };
 
 /**
@@ -43,8 +45,10 @@ export const localeNames: any = {
  * - 用户首次访问时的默认语言
  * - 检测不到用户语言偏好时使用
  * - URL 中没有语言前缀时使用
+ * 
+ * 针对日本市场，默认设置为日语
  */
-export const defaultLocale = "en";
+export const defaultLocale = "ja";
 
 /**
  * URL 语言前缀策略
