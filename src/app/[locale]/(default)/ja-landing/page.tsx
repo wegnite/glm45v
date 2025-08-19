@@ -191,40 +191,56 @@ export default function JapaneseLandingPage() {
               name: "料金プラン",
               title: "AI画像生成の料金",
               subtitle: "生成AIを今すぐ無料で",
-              items: {
-                "1": {
-                  name: "無料プラン",
+              items: [
+                {
+                  title: "無料プラン",
                   description: "AI画像生成を試す",
                   currency: "¥",
                   price: "0",
-                  frequency: "/月",
-                  features: "毎日10枚のAI画像生成,基本的な画像生成AI機能,512×512解像度",
-                  cta_text: "無料で始める",
-                  cta_link: "/ja/auth/signin"
+                  unit: "/月",
+                  features: ["毎日10枚のAI画像生成", "基本的な画像生成AI機能", "512×512解像度"],
+                  button: {
+                    title: "無料で始める",
+                    url: "/ja/auth/signin"
+                  },
+                  interval: "month" as const,
+                  product_id: "free",
+                  amount: 0
                 },
-                "2": {
-                  name: "プロプラン",
+                {
+                  title: "プロプラン",
                   description: "本格的なAI画像生成",
                   currency: "¥",
                   price: "2,980",
-                  frequency: "/月",
-                  badge: "人気",
-                  features: "月500枚のAI画像生成,全画像生成AIスタイル,4K高解像度,商用利用OK",
-                  cta_text: "プロプランへ",
-                  cta_link: "/ja/pricing"
+                  unit: "/月",
+                  label: "人気",
+                  features: ["月500枚のAI画像生成", "全画像生成AIスタイル", "4K高解像度", "商用利用OK"],
+                  button: {
+                    title: "プロプランへ",
+                    url: "/ja/pricing"
+                  },
+                  is_featured: true,
+                  interval: "month" as const,
+                  product_id: "pro",
+                  amount: 2980
                 },
-                "3": {
-                  name: "企業プラン",
+                {
+                  title: "企業プラン",
                   description: "無制限のAI画像生成",
-                  currency: "",
+                  currency: "¥",
                   price: "お問い合わせ",
-                  frequency: "",
-                  features: "無制限のAI画像生成,専用画像生成AIモデル,APIアクセス,優先サポート",
-                  cta_text: "お問い合わせ",
-                  cta_link: "/ja/contact"
+                  unit: "",
+                  features: ["無制限のAI画像生成", "専用画像生成AIモデル", "APIアクセス", "優先サポート"],
+                  button: {
+                    title: "お問い合わせ",
+                    url: "/ja/contact"
+                  },
+                  interval: "one-time" as const,
+                  product_id: "enterprise",
+                  amount: 0
                 }
-              }
-            }} />
+              ]
+            } as any} />
           </div>
         </section>
 

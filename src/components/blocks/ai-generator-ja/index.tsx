@@ -58,6 +58,10 @@ export default function AIGeneratorJapaneseHero() {
   const [error, setError] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const [remainingCredits, setRemainingCredits] = useState<number | null>(null);
+  const [freeTrialsUsed, setFreeTrialsUsed] = useState(0);
+  
+  // 無料試用回数の制限
+  const FREE_TRIAL_LIMIT = 3;
   
   // 利用可能なAIモデル（SiliconFlow）
   const aiModels = {
@@ -88,6 +92,12 @@ export default function AIGeneratorJapaneseHero() {
     setMounted(true);
     // 初始化生成计数
     setGeneratedCount(1234567);
+    
+    // 从localStorage读取免费试用次数
+    const savedTrials = localStorage.getItem('jpFreeTrialsUsed');
+    if (savedTrials) {
+      setFreeTrialsUsed(parseInt(savedTrials));
+    }
     
     // 获取用户积分
     if (status === "authenticated") {
@@ -127,19 +137,31 @@ export default function AIGeneratorJapaneseHero() {
 
   /**
    * AI画像生成を実行
-   * 未ログインの場合はログインダイアログを表示
+   * 無料試用またはログイン済みユーザーのみ実行可能
    */
   const handleGenerate = async () => {
-    if (!prompt) {
-      toast.error("プロンプトを入力してください");
-      return;
-    }
+    // デフォルトプロンプトリスト
+    const defaultPrompts = [
+      "桜の木の下で読書をする少女、アニメスタイル",
+      "富士山の前を飛ぶ龍、浮世絵風",
+      "未来の東京、サイバーパンク風景",
+      "月夜に舞う妖精、ファンタジーアート",
+      "和風庭園の錦鯉、水彩画風"
+    ];
     
-    // 未ログインの場合はログインを促す
-    if (status !== "authenticated") {
-      setShowLoginDialog(true);
-      toast.error("画像生成にはログインが必要です");
-      return;
+    // プロンプトが空の場合はランダムなデフォルトを使用
+    const finalPrompt = prompt.trim() || defaultPrompts[Math.floor(Math.random() * defaultPrompts.length)];
+    
+    // 認証状態と無料試用をチェック
+    if (status === "authenticated") {
+      // ログイン済みユーザーは直接生成
+    } else {
+      // 未ログインユーザーは無料試用回数をチェック
+      if (freeTrialsUsed >= FREE_TRIAL_LIMIT) {
+        setShowLoginDialog(true);
+        toast.error("無料試用回数を使い切りました。ログインして続けてください");
+        return;
+      }
     }
     
     setIsGenerating(true);
@@ -156,7 +178,7 @@ export default function AIGeneratorJapaneseHero() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: prompt,
+          prompt: finalPrompt,
           provider: selectedModel.provider,
           model: selectedModel.model,
           size: "1024x1024",
@@ -181,14 +203,45 @@ export default function AIGeneratorJapaneseHero() {
           setRemainingCredits(result.data.credits_remaining);
         }
         
+        // プロンプトが空だった場合は使用したプロンプトをセット
+        if (!prompt.trim()) {
+          setPrompt(finalPrompt);
+        }
+        
         // 生成カウンターを更新
         setGeneratedCount(prev => (prev || 1234567) + 1);
+        
+        // 未ログインユーザーの場合、無料試用回数を更新
+        if (status !== "authenticated") {
+          const newTrialsUsed = freeTrialsUsed + 1;
+          setFreeTrialsUsed(newTrialsUsed);
+          localStorage.setItem('jpFreeTrialsUsed', newTrialsUsed.toString());
+          
+          if (newTrialsUsed === FREE_TRIAL_LIMIT) {
+            toast.info(`無料試用をすべて使用しました。ログインして続けてください！`);
+          } else {
+            toast.info(`残り無料試用回数: ${FREE_TRIAL_LIMIT - newTrialsUsed}回`);
+          }
+        }
       } else if (result.data?.images?.[0]) {
         // 別の形式のレスポンス対応
         setGeneratedImage(result.data.images[0].url || result.data.images[0]);
         setShowResultDialog(true);
         toast.success("AI画像生成が完了しました！");
         setGeneratedCount(prev => (prev || 1234567) + 1);
+        
+        // 未ログインユーザーの場合、無料試用回数を更新
+        if (status !== "authenticated") {
+          const newTrialsUsed = freeTrialsUsed + 1;
+          setFreeTrialsUsed(newTrialsUsed);
+          localStorage.setItem('jpFreeTrialsUsed', newTrialsUsed.toString());
+          
+          if (newTrialsUsed === FREE_TRIAL_LIMIT) {
+            toast.info(`無料試用をすべて使用しました。ログインして続けてください！`);
+          } else {
+            toast.info(`残り無料試用回数: ${FREE_TRIAL_LIMIT - newTrialsUsed}回`);
+          }
+        }
       } else {
         throw new Error("画像URLが取得できませんでした");
       }
@@ -354,13 +407,13 @@ export default function AIGeneratorJapaneseHero() {
                 </label>
                 <Textarea
                   id="ai-prompt"
-                  placeholder="例：桜が満開の富士山、アニメ風の美しい風景、高解像度、詳細な描写..."
+                  placeholder="プロンプトを入力、または空欄でランダム生成（例：桜が満開の富士山、アニメ風...）"
                   className="min-h-[120px] text-lg"
                   value={prompt}
                   onChange={(e) => setPrompt(e.target.value)}
                 />
                 <p className="text-sm text-gray-500 mt-2">
-                  日本語で自由に入力してください。<strong>AI画像生成</strong>エンジンが理解します。
+                  日本語で自由に入力、または空欄のままでランダムプロンプトを使用。
                 </p>
               </div>
 
@@ -407,7 +460,7 @@ export default function AIGeneratorJapaneseHero() {
                   size="lg"
                   className="flex-1 text-lg py-6 bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700"
                   onClick={handleGenerate}
-                  disabled={isGenerating || !prompt}
+                  disabled={isGenerating}
                 >
                   {isGenerating ? (
                     <>
@@ -448,10 +501,13 @@ export default function AIGeneratorJapaneseHero() {
                     ) : (
                       <>
                         <p className="font-semibold text-pink-700 dark:text-pink-300">
-                          ログインしてAI画像生成を始めましょう！
+                          {freeTrialsUsed === 0 
+                            ? `${FREE_TRIAL_LIMIT}回の無料試用が利用可能！`
+                            : `残り無料試用回数: ${FREE_TRIAL_LIMIT - freeTrialsUsed}回`
+                          }
                         </p>
                         <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                          GoogleまたはGitHubアカウントで簡単ログイン。初回100クレジットプレゼント！
+                          ログインせずに{FREE_TRIAL_LIMIT}回まで無料でAI画像生成をお試しいただけます。
                         </p>
                       </>
                     )}

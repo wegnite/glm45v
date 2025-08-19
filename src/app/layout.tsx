@@ -3,6 +3,7 @@ import "@/app/globals.css";
 import { getLocale, setRequestLocale } from "next-intl/server";
 import { locales } from "@/i18n/locale";
 import { cn } from "@/lib/utils";
+import { StructuredData } from "@/components/structured-data";
 
 export default async function RootLayout({
   children,
@@ -37,7 +38,10 @@ export default async function RootLayout({
           ))}
         <link rel="alternate" hrefLang="x-default" href={webUrl} />
       </head>
-      <body className={cn("min-h-screen overflow-x-hidden dark")}>{children}</body>
+      <body className={cn("min-h-screen overflow-x-hidden dark")}>
+        <StructuredData type="WebSite" data={{}} />
+        {children}
+      </body>
     </html>
   );
 }

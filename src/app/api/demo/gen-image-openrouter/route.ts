@@ -135,7 +135,7 @@ export async function POST(req: Request) {
       messages: messages,
       // 图像生成特定参数
       n: n,
-      size: size || modelConfig.defaultSize,
+      size: size || ('defaultSize' in modelConfig ? modelConfig.defaultSize : "1024x1024"),
       quality: quality || "standard",
       style: style || "vivid",
       // OpenRouter 特定参数

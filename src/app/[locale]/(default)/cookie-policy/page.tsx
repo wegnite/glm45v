@@ -9,10 +9,11 @@ import { getTranslations } from "next-intl/server";
  */
 
 export async function generateMetadata({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "CookiePolicy" });
   
   return {
@@ -25,10 +26,11 @@ export async function generateMetadata({
 }
 
 export default async function CookiePolicyPage({
-  params: { locale },
+  params,
 }: {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 }) {
+  const { locale } = await params;
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <h1 className="text-4xl font-bold mb-8">Cookie Policy</h1>

@@ -1,56 +1,121 @@
-# AI Universal Generator Robots.txt
-# https://aigenerator.com
+# AI Universal Generator Platform
+# Optimized robots.txt for SEO
+# Last updated: 2025-08-19
 
-# Allow all crawlers by default
+# Allow all legitimate crawlers
 User-agent: *
 Allow: /
+Allow: /en/
+Allow: /zh/
+Allow: /ja/
+Allow: /ja-landing
+Allow: /posts/
+Allow: /showcase
+Allow: /pricing
+Allow: /contact
+Allow: /tools/
+Allow: /tools/image-generator
+Allow: /tools/text-generator
+Allow: /gallery/
 Disallow: /api/
 Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /_next/
-Disallow: /account/
+Disallow: /my-*
+Disallow: /_next/static/
 Disallow: /auth/
+Disallow: /i/
 Crawl-delay: 1
 
-# Googlebot specific rules (no crawl delay for better indexing)
+# Googlebot - Priority crawler (no delay)
 User-agent: Googlebot
 Allow: /
+Allow: /en/
+Allow: /zh/
+Allow: /ja/
+Allow: /ja-landing
+Allow: /posts/
+Allow: /showcase
+Allow: /pricing
+Allow: /contact
+Allow: /tools/
+Allow: /tools/image-generator
+Allow: /tools/text-generator
+Allow: /gallery/
+Allow: /_next/image
 Disallow: /api/
 Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /_next/
-Disallow: /account/
+Disallow: /my-*
+Disallow: /_next/static/
 Disallow: /auth/
-Crawl-delay: 0
+Disallow: /i/
 
-# Bingbot specific rules
+# Googlebot-Image - Allow image crawling
+User-agent: Googlebot-Image
+Allow: /imgs/
+Allow: /_next/image
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Bingbot - Microsoft search
 User-agent: Bingbot
 Allow: /
+Allow: /en/
+Allow: /zh/
+Allow: /ja/
+Allow: /ja-landing
+Allow: /posts/
 Disallow: /api/
 Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /_next/
-Disallow: /account/
+Disallow: /my-*
+Disallow: /_next/static/
 Disallow: /auth/
 Crawl-delay: 1
 
-# Baiduspider for Chinese market
+# Baiduspider - Chinese search engine
 User-agent: Baiduspider
 Allow: /
+Allow: /zh/
+Allow: /posts/
 Disallow: /api/
 Disallow: /admin/
-Disallow: /dashboard/
-Disallow: /_next/
-Disallow: /account/
+Disallow: /my-*
+Disallow: /_next/static/
 Disallow: /auth/
 Crawl-delay: 2
 
-# Block bad bots
+# Yandex - Russian search engine
+User-agent: Yandex
+Allow: /
+Allow: /en/
+Disallow: /api/
+Disallow: /admin/
+Disallow: /my-*
+Disallow: /_next/static/
+Disallow: /auth/
+Crawl-delay: 2
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 0
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 0
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 0
+
+# Block aggressive/bad bots
 User-agent: AhrefsBot
 Disallow: /
 
 User-agent: SemrushBot
-Disallow: /
+Crawl-delay: 10
 
 User-agent: DotBot
 Disallow: /
@@ -58,7 +123,23 @@ Disallow: /
 User-agent: MJ12bot
 Disallow: /
 
-# Sitemaps
+User-agent: Bytespider
+Disallow: /
+
+# GPTBot (OpenAI) - Allow for AI training
+User-agent: GPTBot
+Allow: /
+Crawl-delay: 2
+
+# ClaudeBot (Anthropic) - Allow for AI training
+User-agent: ClaudeBot
+Allow: /
+Crawl-delay: 2
+
+# Sitemap location (dynamic generation via Next.js)
 Sitemap: https://aigenerator.com/sitemap.xml
 Sitemap: https://aigenerator.com/sitemap-images.xml
-Sitemap: https://aigenerator.com/sitemap-0.xml
+Sitemap: https://aigenerator.com/sitemap-videos.xml
+
+# Host directive (optional but helpful)
+Host: https://aigenerator.com
