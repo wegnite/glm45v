@@ -4,6 +4,9 @@ import { MetadataRoute } from 'next';
  * Generate dynamic sitemap for SEO
  * This function creates a sitemap.xml file that helps search engines discover and index all pages
  * 
+ * Problem: The sitemap wasn't clearly showing the root path and all language versions
+ * Solution: Generate entries for all locales with proper URL structure based on i18n configuration
+ * 
  * @returns Array of sitemap entries with URL, last modified date, change frequency, and priority
  */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -13,13 +16,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const currentDate = new Date().toISOString();
   
   // Define locales for multi-language support
-  const locales = ['en', 'zh', 'ja'];
+  // ja is the default locale (no prefix needed due to "as-needed" strategy)
+  const locales = ['ja', 'zh', 'en'];
   
   // Define pages with their priorities and change frequencies
   // 为每个语言版本生成独立的URL，避免重复
   const pages = [
     {
-      path: '',  // 首页
+      path: '',  // 首页 / Homepage
       changeFrequency: 'daily' as const,
       priority: 1.0,
     },
@@ -80,18 +84,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const sitemapEntries = locales.flatMap(locale => {
     return pages.map(page => {
       // 日文版本使用根路径（默认语言），其他语言使用 locale 前缀
+      // Japanese (default) uses root path, other languages use locale prefix
       const url = locale === 'ja' 
         ? `${baseUrl}${page.path}`
         : `${baseUrl}/${locale}${page.path}`;
       
       // 日语版本优先级最高（主要目标市场）
+      // Japanese version has highest priority (primary target market)
       let priority = page.priority;
       if (locale === 'ja') {
-        priority = page.priority; // 日文保持原始优先级
-      } else if (locale === 'en') {
-        priority = page.priority * 0.95;
+        priority = page.priority; // 日文保持原始优先级 / Japanese keeps original priority
       } else if (locale === 'zh') {
-        priority = page.priority * 0.9;
+        priority = page.priority * 0.9; // 中文次优先级 / Chinese second priority  
+      } else if (locale === 'en') {
+        priority = page.priority * 0.95; // 英文第三优先级 / English third priority
       }
       
       return {
@@ -101,6 +107,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority,
       };
     });
+  });
+  
+  // Sort entries to ensure proper order in sitemap
+  // First by priority (descending), then by URL (ascending)
+  sitemapEntries.sort((a, b) => {
+    if (b.priority !== a.priority) {
+      return b.priority - a.priority;
+    }
+    return a.url.localeCompare(b.url);
   });
   
   return sitemapEntries;
