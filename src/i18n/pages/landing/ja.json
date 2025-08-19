@@ -1,4 +1,54 @@
 {
+  "template": "ai-universal-generator",
+  "theme": "dark",
+  "header": {
+    "brand": {
+      "title": "AI画像ジェネレーター",
+      "logo": {
+        "src": "/logo.png",
+        "alt": "AI画像ジェネレーター"
+      },
+      "url": "/"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "AIツール",
+          "icon": "RiRobot2Line",
+          "children": [
+            {
+              "title": "AI画像生成",
+              "description": "FLUX & Stable Diffusionで美しい画像を作成",
+              "url": "/tools/image-generator",
+              "icon": "RiImageLine"
+            },
+            {
+              "title": "AIテキスト生成",
+              "description": "GPT-4とDeepSeekでコンテンツ生成",
+              "url": "/tools/text-generator",
+              "icon": "RiFileTextLine"
+            }
+          ]
+        },
+        {
+          "title": "料金",
+          "url": "/pricing",
+          "icon": "RiMoneyDollarCircleLine"
+        }
+      ]
+    },
+    "buttons": [
+      {
+        "title": "無料で始める",
+        "url": "/auth/signin",
+        "icon": "RiSparklingLine",
+        "variant": "default"
+      }
+    ],
+    "show_sign": true,
+    "show_theme": true,
+    "show_locale": true
+  },
   "hero": {
     "badge": "日本No.1 AI生成プラットフォーム",
     "title": "AI画像生成で\n創造力を解き放つ",
@@ -210,5 +260,119 @@
     "subtitle": "クレジットカード不要。今すぐ無料で始められます。",
     "cta_text": "無料でAI画像生成を始める",
     "cta_link": "/ja/auth/signin"
+  },
+  "footer": {
+    "brand": {
+      "title": "AI画像ジェネレーター",
+      "description": "最先端のAI技術で、あなたの創造力を解き放つ"
+    },
+    "nav": {
+      "items": [
+        {
+          "title": "製品",
+          "items": [
+            {
+              "title": "AI画像生成",
+              "url": "/tools/image-generator"
+            },
+            {
+              "title": "AIテキスト生成",
+              "url": "/tools/text-generator"
+            },
+            {
+              "title": "料金プラン",
+              "url": "/pricing"
+            },
+            {
+              "title": "ギャラリー",
+              "url": "/gallery"
+            }
+          ]
+        },
+        {
+          "title": "会社情報",
+          "items": [
+            {
+              "title": "会社概要",
+              "url": "/about"
+            },
+            {
+              "title": "ブログ",
+              "url": "/blog"
+            },
+            {
+              "title": "お問い合わせ",
+              "url": "/contact"
+            }
+          ]
+        },
+        {
+          "title": "サポート",
+          "items": [
+            {
+              "title": "ヘルプセンター",
+              "url": "/help"
+            },
+            {
+              "title": "ドキュメント",
+              "url": "/docs"
+            },
+            {
+              "title": "FAQ",
+              "url": "/faq"
+            },
+            {
+              "title": "APIドキュメント",
+              "url": "/api-docs"
+            }
+          ]
+        },
+        {
+          "title": "規約",
+          "items": [
+            {
+              "title": "利用規約",
+              "url": "/terms-of-service"
+            },
+            {
+              "title": "プライバシーポリシー",
+              "url": "/privacy-policy"
+            },
+            {
+              "title": "特定商取引法",
+              "url": "/commercial-law"
+            },
+            {
+              "title": "返金ポリシー",
+              "url": "/refund-policy"
+            }
+          ]
+        }
+      ]
+    },
+    "social": {
+      "items": [
+        {
+          "title": "Twitter",
+          "url": "https://twitter.com/aiuniversalgenerator",
+          "icon": "RiTwitterXLine"
+        },
+        {
+          "title": "GitHub",
+          "url": "https://github.com/aiuniversalgenerator",
+          "icon": "RiGithubLine"
+        },
+        {
+          "title": "Discord",
+          "url": "https://discord.gg/aiuniversalgenerator",
+          "icon": "RiDiscordLine"
+        }
+      ]
+    },
+    "copyright": "© 2024 AI画像ジェネレーター. All rights reserved.",
+    "contact": {
+      "email": "support@aiuniversalgenerator.com",
+      "phone": "+81-3-1234-5678"
+    }
   }
 }

@@ -13,18 +13,85 @@
     "nav": {
       "items": [
         {
-          "title": "Features",
-          "url": "/#feature",
-          "icon": "RiSparkling2Line"
+          "title": "AI Tools",
+          "icon": "RiRobot2Line",
+          "children": [
+            {
+              "title": "AI Image Generator",
+              "description": "Create stunning images with FLUX & Stable Diffusion",
+              "url": "/tools/image-generator",
+              "icon": "RiImageLine"
+            },
+            {
+              "title": "AI Text Generator",
+              "description": "Generate content with GPT-4 & DeepSeek",
+              "url": "/tools/text-generator",
+              "icon": "RiFileTextLine"
+            },
+            {
+              "title": "AI Video Generator",
+              "description": "Create videos with cutting-edge AI",
+              "url": "/tools/video-generator",
+              "icon": "RiVideoLine"
+            },
+            {
+              "title": "View All Tools",
+              "description": "Explore 48+ AI models",
+              "url": "/tools",
+              "icon": "RiAppsLine"
+            }
+          ]
+        },
+        {
+          "title": "Gallery",
+          "url": "/gallery",
+          "icon": "RiGalleryLine"
         },
         {
           "title": "Pricing",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "Resources",
+          "icon": "RiBookOpenLine",
+          "children": [
+            {
+              "title": "Documentation",
+              "description": "API docs and guides",
+              "url": "/docs",
+              "icon": "RiFileList2Line"
+            },
+            {
+              "title": "Blog",
+              "description": "Latest AI news and tutorials",
+              "url": "/posts",
+              "icon": "RiArticleLine"
+            },
+            {
+              "title": "Showcase",
+              "description": "Featured AI creations",
+              "url": "/showcase",
+              "icon": "RiStarLine"
+            },
+            {
+              "title": "Help Center",
+              "description": "FAQs and support",
+              "url": "/help",
+              "icon": "RiQuestionLine"
+            }
+          ]
         }
       ]
     },
-    "buttons": [],
+    "buttons": [
+      {
+        "title": "Start Free",
+        "url": "/auth/signin",
+        "icon": "RiSparklingLine",
+        "variant": "default"
+      }
+    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true
@@ -377,66 +444,96 @@
       },
       "url": "/"
     },
-    "copyright": "© 2025 • AI Universal Generator. Powered by cutting-edge AI technology.",
+    "copyright": "© 2025 • AI Universal Generator. All rights reserved.",
     "nav": {
       "items": [
         {
-          "title": "Platform",
+          "title": "AI Tools",
           "children": [
             {
-              "title": "AI Models",
-              "url": "/#feature",
+              "title": "AI Image Generator",
+              "url": "/tools/image-generator",
+              "target": "_self"
+            },
+            {
+              "title": "AI Text Generator",
+              "url": "/tools/text-generator",
+              "target": "_self"
+            },
+            {
+              "title": "AI Video Generator",
+              "url": "/tools/video-generator",
+              "target": "_self"
+            },
+            {
+              "title": "All AI Tools",
+              "url": "/tools",
+              "target": "_self"
+            },
+            {
+              "title": "Gallery",
+              "url": "/gallery",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "Company",
+          "children": [
+            {
+              "title": "About Us",
+              "url": "/about",
+              "target": "_self"
+            },
+            {
+              "title": "Blog",
+              "url": "/posts",
               "target": "_self"
             },
             {
               "title": "Pricing",
-              "url": "/#pricing",
+              "url": "/pricing",
               "target": "_self"
             },
             {
-              "title": "API Access",
-              "url": "/#api",
-              "target": "_self"
-            }
-          ]
-        },
-        {
-          "title": "AI Models",
-          "children": [
-            {
-              "title": "Text Generation",
-              "url": "/#text-models",
+              "title": "Contact",
+              "url": "/contact",
               "target": "_self"
             },
             {
-              "title": "Image Generation",
-              "url": "/#image-models",
-              "target": "_self"
-            },
-            {
-              "title": "Video Generation",
-              "url": "/#video-models",
+              "title": "Careers",
+              "url": "/careers",
               "target": "_self"
             }
           ]
         },
         {
-          "title": "Providers",
+          "title": "Support",
           "children": [
             {
-              "title": "OpenAI",
-              "url": "https://openai.com",
-              "target": "_blank"
+              "title": "Help Center",
+              "url": "/help",
+              "target": "_self"
             },
             {
-              "title": "Anthropic",
-              "url": "https://anthropic.com",
-              "target": "_blank"
+              "title": "Documentation",
+              "url": "/docs",
+              "target": "_self"
             },
             {
-              "title": "Google AI",
-              "url": "https://ai.google",
-              "target": "_blank"
+              "title": "API Reference",
+              "url": "/api-docs",
+              "target": "_self"
+            },
+            {
+              "title": "Status",
+              "url": "/status",
+              "target": "_self"
+            },
+            {
+              "title": "FAQ",
+              "url": "/faq",
+              "target": "_self"
             }
           ]
         }
@@ -479,6 +576,18 @@
         {
           "title": "Terms of Service",
           "url": "/terms-of-service"
+        },
+        {
+          "title": "Cookie Policy",
+          "url": "/cookie-policy"
+        },
+        {
+          "title": "Refund Policy",
+          "url": "/refund-policy"
+        },
+        {
+          "title": "Sitemap",
+          "url": "/sitemap.xml"
         }
       ]
     }

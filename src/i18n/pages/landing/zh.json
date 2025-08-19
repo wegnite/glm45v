@@ -13,18 +13,85 @@
     "nav": {
       "items": [
         {
-          "title": "功能特点",
-          "url": "/#feature",
-          "icon": "RiSparkling2Line"
+          "title": "AI工具",
+          "icon": "RiRobot2Line",
+          "children": [
+            {
+              "title": "AI图片生成器",
+              "description": "使用FLUX和Stable Diffusion创建精美图片",
+              "url": "/tools/image-generator",
+              "icon": "RiImageLine"
+            },
+            {
+              "title": "AI文本生成器",
+              "description": "使用GPT-4和DeepSeek生成内容",
+              "url": "/tools/text-generator",
+              "icon": "RiFileTextLine"
+            },
+            {
+              "title": "AI视频生成器",
+              "description": "使用尖端AI创建视频",
+              "url": "/tools/video-generator",
+              "icon": "RiVideoLine"
+            },
+            {
+              "title": "查看所有工具",
+              "description": "探索48+AI模型",
+              "url": "/tools",
+              "icon": "RiAppsLine"
+            }
+          ]
+        },
+        {
+          "title": "作品展示",
+          "url": "/gallery",
+          "icon": "RiGalleryLine"
         },
         {
           "title": "定价",
           "url": "/pricing",
           "icon": "RiMoneyDollarCircleLine"
+        },
+        {
+          "title": "资源",
+          "icon": "RiBookOpenLine",
+          "children": [
+            {
+              "title": "文档",
+              "description": "API文档和指南",
+              "url": "/docs",
+              "icon": "RiFileList2Line"
+            },
+            {
+              "title": "博客",
+              "description": "最新AI新闻和教程",
+              "url": "/posts",
+              "icon": "RiArticleLine"
+            },
+            {
+              "title": "案例展示",
+              "description": "精选AI创作",
+              "url": "/showcase",
+              "icon": "RiStarLine"
+            },
+            {
+              "title": "帮助中心",
+              "description": "常见问题和支持",
+              "url": "/help",
+              "icon": "RiQuestionLine"
+            }
+          ]
         }
       ]
     },
-    "buttons": [],
+    "buttons": [
+      {
+        "title": "免费开始",
+        "url": "/auth/signin",
+        "icon": "RiSparklingLine",
+        "variant": "default"
+      }
+    ],
     "show_sign": true,
     "show_theme": true,
     "show_locale": true

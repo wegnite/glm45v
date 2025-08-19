@@ -8,7 +8,6 @@ Allow: /
 Allow: /en/
 Allow: /zh/
 Allow: /ja/
-Allow: /ja-landing
 Allow: /posts/
 Allow: /showcase
 Allow: /pricing
@@ -31,7 +30,6 @@ Allow: /
 Allow: /en/
 Allow: /zh/
 Allow: /ja/
-Allow: /ja-landing
 Allow: /posts/
 Allow: /showcase
 Allow: /pricing
@@ -65,7 +63,6 @@ Allow: /
 Allow: /en/
 Allow: /zh/
 Allow: /ja/
-Allow: /ja-landing
 Allow: /posts/
 Disallow: /api/
 Disallow: /admin/
@@ -137,9 +134,7 @@ Allow: /
 Crawl-delay: 2
 
 # Sitemap location (dynamic generation via Next.js)
-Sitemap: https://aigenerator.com/sitemap.xml
-Sitemap: https://aigenerator.com/sitemap-images.xml
-Sitemap: https://aigenerator.com/sitemap-videos.xml
+Sitemap: https://glm45v.com/sitemap.xml
 
 # Host directive (optional but helpful)
-Host: https://aigenerator.com
+Host: https://glm45v.com

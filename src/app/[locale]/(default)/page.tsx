@@ -15,7 +15,8 @@ export async function generateMetadata({
   const { locale } = await params;
   let canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}`;
 
-  if (locale !== "en") {
+  // 日文是默认语言，不需要前缀；其他语言添加前缀
+  if (locale !== "ja") {
     canonicalUrl = `${process.env.NEXT_PUBLIC_WEB_URL}/${locale}`;
   }
 

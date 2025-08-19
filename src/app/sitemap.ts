@@ -7,96 +7,101 @@ import { MetadataRoute } from 'next';
  * @returns Array of sitemap entries with URL, last modified date, change frequency, and priority
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://aigenerator.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://glm45v.com';
   
   // Get current date for lastModified
   const currentDate = new Date().toISOString();
   
-  // Define static pages with their priorities and change frequencies
-  // 只包含实际存在的页面，避免404错误影响SEO
-  const staticPages = [
+  // Define locales for multi-language support
+  const locales = ['en', 'zh', 'ja'];
+  
+  // Define pages with their priorities and change frequencies
+  // 为每个语言版本生成独立的URL，避免重复
+  const pages = [
     {
-      url: baseUrl,
-      lastModified: currentDate,
+      path: '',  // 首页
       changeFrequency: 'daily' as const,
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/ja-landing`,  // 日语AI生成页面
-      lastModified: currentDate,
+      path: '/tools/image-generator',  // AI图像生成工具
       changeFrequency: 'daily' as const,
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/tools/image-generator`,  // AI图像生成工具
-      lastModified: currentDate,
+      path: '/tools/text-generator',  // AI文本生成工具
       changeFrequency: 'daily' as const,
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/tools/text-generator`,  // AI文本生成工具
-      lastModified: currentDate,
-      changeFrequency: 'daily' as const,
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/pricing`,
-      lastModified: currentDate,
+      path: '/pricing',  // 定价页面
       changeFrequency: 'weekly' as const,
       priority: 0.9,
     },
     {
-      url: `${baseUrl}/showcase`,  // 展示页面
-      lastModified: currentDate,
+      path: '/gallery',  // 画廊页面
       changeFrequency: 'daily' as const,
       priority: 0.85,
     },
     {
-      url: `${baseUrl}/posts`,  // 博客文章列表
-      lastModified: currentDate,
+      path: '/showcase',  // 展示页面
+      changeFrequency: 'daily' as const,
+      priority: 0.85,
+    },
+    {
+      path: '/blog',  // 博客页面
       changeFrequency: 'daily' as const,
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/contact`,
-      lastModified: currentDate,
+      path: '/about',  // 关于页面
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    },
+    {
+      path: '/contact',  // 联系页面
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/refund-policy`,
-      lastModified: currentDate,
+      path: '/terms-of-service',  // 服务条款
       changeFrequency: 'monthly' as const,
       priority: 0.5,
     },
     {
-      url: `${baseUrl}/cookie-policy`,
-      lastModified: currentDate,
+      path: '/privacy-policy',  // 隐私政策
       changeFrequency: 'monthly' as const,
       priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/auth/signin`,  // 登录页面
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.4,
     },
   ];
   
-  // Define locales for multi-language support
-  const locales = ['en', 'zh', 'ja'];
-  
   // Generate URLs for all locales
-  const localizedPages = staticPages.flatMap(page => {
-    return locales.map(locale => ({
-      ...page,
-      url: page.url.replace(baseUrl, `${baseUrl}/${locale}`),
-      priority: page.priority * 0.9, // Slightly lower priority for localized pages
-    }));
+  // 为每个语言版本生成完整的 URL
+  const sitemapEntries = locales.flatMap(locale => {
+    return pages.map(page => {
+      // 日文版本使用根路径（默认语言），其他语言使用 locale 前缀
+      const url = locale === 'ja' 
+        ? `${baseUrl}${page.path}`
+        : `${baseUrl}/${locale}${page.path}`;
+      
+      // 日语版本优先级最高（主要目标市场）
+      let priority = page.priority;
+      if (locale === 'ja') {
+        priority = page.priority; // 日文保持原始优先级
+      } else if (locale === 'en') {
+        priority = page.priority * 0.95;
+      } else if (locale === 'zh') {
+        priority = page.priority * 0.9;
+      }
+      
+      return {
+        url,
+        lastModified: currentDate,
+        changeFrequency: page.changeFrequency,
+        priority,
+      };
+    });
   });
   
-  // Combine all pages
-  const allPages = [...staticPages, ...localizedPages];
-  
-  return allPages;
+  return sitemapEntries;
 }
